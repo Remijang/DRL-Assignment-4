@@ -38,9 +38,7 @@ class Actor(nn.Module):
         final_action = torch.clamp(action, self.action_low, self.action_high)
         return final_action
 
-# Do not modify the input of the 'act' function and the '__init__' function. 
 class Agent(object):
-    """Agent that acts randomly."""
     def __init__(self, load_path="model"):
         self.action_space = gymnasium.spaces.Box(-1.0, 1.0, (21,), np.float64)
         state_dim = 67
@@ -54,7 +52,6 @@ class Agent(object):
     def load(self, load_path):
         checkpoint = torch.load(load_path, map_location=DEVICE)
         self.actor.load_state_dict(checkpoint['actor_state_dict'])
-        print(f"Loaded Actor model from {load_path}")
 
     def act(self, observation):
         state = torch.tensor(observation, dtype=torch.float32, device=DEVICE).unsqueeze(0)
